@@ -240,7 +240,7 @@ class ScholarConf(object):
 
     VERSION = '2.10'
     LOG_LEVEL = 1
-    MAX_PAGE_RESULTS = 10 # Current default for per-page results
+    MAX_PAGE_RESULTS = 1000 # Current default for per-page results
     SCHOLAR_SITE = 'http://scholar.google.com'
 
     # USER_AGENT = 'Mozilla/5.0 (X11; U; FreeBSD i386; en-US; rv:1.9.2.9) Gecko/20100913 Firefox/3.6.9'
@@ -336,7 +336,7 @@ class ScholarArticle(object):
                 res.append(fmt % (item[1], item[0]))
         return '\n'.join(res)
 
-    def as_csv(self, header=False, sep='|'):
+    def as_csv(self, header, sep):
         # Get keys sorted in specified order:
         keys = [pair[0] for pair in \
                 sorted([(key, val[2]) for key, val in list(self.attrs.items())],
@@ -1132,7 +1132,7 @@ def txt(querier, with_globals):
     for art in articles:
         print(encode(art.as_txt()) + '\n')
 
-def csv(querier, header=False, sep='|'):
+def csv(querier, header=False, sep=','):
     articles = querier.articles
     for art in articles:
         result = art.as_csv(header=header, sep=sep)
